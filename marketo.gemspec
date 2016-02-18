@@ -1,23 +1,34 @@
-Gem::Specification.new do |gem|
-  gem.name        = "marketo"
-  gem.summary     = "A client for the marketo API"
-  gem.description = <<-EOF
-     Allows easy integration with marketo from ruby. You can synchronize leads and fetch them back by email.
-     By default this is configured for the SOAP wsdl file: http://app.marketo.com/soap/mktows/1_4?WSDL but this is
-     configurable when you construct the client, e.g.
-     client = Rapleaf::Marketo.new_client(<access_key>, <secret_key>, (api_subdomain = 'na-i'), (api_version = '1_5'), (document_version = '1_4'))
-     More information at https://www.rapleaf.com/developers/marketo.
-  EOF
-  gem.email        = "iamnader@gmail.com"
-  gem.authors      = ["Nader Akhnoukh"]
-  gem.homepage     = "https://www.rapleaf.com/developers/marketo"
-  gem.files        = Dir['lib/**/*.rb']
-  gem.require_path = ['lib']
-  gem.test_files   = Dir['spec/**/*_spec.rb']
-  gem.version      = "1.4.3"
-  gem.has_rdoc     = true
-  gem.rdoc_options << '--title' << 'Marketo Client Gem' << '--main' << 'Marketo::Client'
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 
-  gem.add_development_dependency('rspec', '>= 2.3.0')
-  gem.add_dependency('savon', '>= 0.8.3')
+Gem::Specification.new do |spec|
+  spec.name = "marketo"
+  spec.version = "1.4.3"
+  spec.platform = Gem::Platform::RUBY
+  spec.authors = ["Nader Akhnoukh"]
+  spec.email = ["iamnader@gmail.com"]
+  spec.homepage = "https://github.com/kapost/marketo_gem"
+  spec.summary = "A Marketo SOAP API client."
+  spec.description = "A Marketo SOAP API client."
+  spec.require_path = ["lib"]
+
+  spec.add_dependency("savon", ">= 0.8.3")
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "gemsmith"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "pry-remote"
+  spec.add_development_dependency "pry-state"
+  spec.add_development_dependency "pry-rescue"
+  spec.add_development_dependency "pry-stack_explorer"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rb-fsevent" # Guard file events for OSX.
+  spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "terminal-notifier"
+  spec.add_development_dependency "terminal-notifier-guard"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "codeclimate-test-reporter"
+
+  spec.files = Dir["lib/**/*"]
+  spec.extra_rdoc_files = Dir["README*"]
+  spec.require_paths = ["lib"]
 end
