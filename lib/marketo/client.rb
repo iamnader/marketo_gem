@@ -1,10 +1,16 @@
 module Marketo
-  def self.new_client(access_key, secret_key, api_subdomain = 'na-i', api_version = '1_5', document_version = '1_4')
+  def self.new_client(access_key,
+                      secret_key,
+                      api_subdomain = 'na-i',
+                      api_version = '1_5',
+                      document_version = '1_4',
+                      read_timeout = 90,
+                      open_timeout = 90)
     client = Savon::Client.new do
       wsdl.endpoint     = api_subdomain.start_with?('http') ? api_subdomain : "https://#{api_subdomain}.marketo.com/soap/mktows/#{api_version}"
       wsdl.document     = "http://app.marketo.com/soap/mktows/#{document_version}?WSDL"
-      http.read_timeout = 90
-      http.open_timeout = 90
+      http.read_timeout = read_timeout
+      http.open_timeout = open_timeout
       http.headers      = {"Connection" => "Keep-Alive"}
     end
 
@@ -101,11 +107,11 @@ module Marketo
         end
 
         response = send_request("ns1:paramsSyncLead", {
-            :return_lead => true,
-            :lead_record =>
-                {:email               => lead_record.email,
-                 :lead_attribute_list => {
-                     :attribute => attributes}}})
+          :return_lead => true,
+          :lead_record =>
+            {:email               => lead_record.email,
+             :lead_attribute_list => {
+               :attribute => attributes}}})
         return LeadRecord.from_hash(response[:success_sync_lead][:result][:lead_record])
       rescue Exception => e
         @logger.log(e) if @logger
@@ -120,26 +126,26 @@ module Marketo
       begin
         attributes = []
         lead_record.each_attribute_pair do |name, value|
-            attributes << {:attr_name => name, :attr_type => 'string', :attr_value => value}
+          attributes << {:attr_name => name, :attr_type => 'string', :attr_value => value}
         end
 
         attributes << {:attr_name => 'Id', :attr_type => 'string', :attr_value => idnum.to_s}
 
         response = send_request("ns1:paramsSyncLead", {
-            :return_lead => true,
-            :lead_record =>
-                {
-                  :lead_attribute_list => { :attribute => attributes},
-                  :id => idnum
-                }})
+          :return_lead => true,
+          :lead_record =>
+            {
+              :lead_attribute_list => { :attribute => attributes},
+              :id => idnum
+            }})
         return LeadRecord.from_hash(response[:success_sync_lead][:result][:lead_record])
       rescue Exception => e
         @logger.log(e) if @logger
         return nil
       end
     end
-    
-    
+
+
     def get_lead_changes(stream_position, activity_filter, batch_size = 100)
       begin
         response = send_request("ns1:paramsGetLeadChanges", {:start_position => stream_position.to_hash, :activity_filter => activity_filter.to_hash, :batch_size => batch_size})
@@ -171,20 +177,20 @@ module Marketo
         false
       end
     end
-    
+
 
     private
     def list_operation(list_key, list_operation_type, email)
       begin
         response = send_request("ns1:paramsListOperation", {
-            :list_operation   => list_operation_type,
-            :list_key         => list_key,
-            :strict           => 'false',
-            :list_member_list => {
-                :lead_key => [
-                    {:key_type => 'EMAIL', :key_value => email}
-                ]
-            }
+          :list_operation   => list_operation_type,
+          :list_key         => list_key,
+          :strict           => 'false',
+          :list_member_list => {
+            :lead_key => [
+              {:key_type => 'EMAIL', :key_value => email}
+            ]
+          }
         })
         return response
       rescue Exception => e
@@ -202,7 +208,7 @@ module Marketo
         return nil
       end
     end
- 
+
     def send_request(namespace, body)
       @header.set_time(DateTime.now)
       response = request(namespace, body, @header.to_hash)
