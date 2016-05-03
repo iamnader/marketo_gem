@@ -5,19 +5,21 @@ Gem::Specification.new do |gem|
      Allows easy integration with marketo from ruby. You can synchronize leads and fetch them back by email.
      By default this is configured for the SOAP wsdl file: http://app.marketo.com/soap/mktows/1_4?WSDL but this is
      configurable when you construct the client, e.g.
-     client = Rapleaf::Marketo.new_client(<access_key>, <secret_key>, (api_subdomain = 'na-i'), (api_version = '1_5'), (document_version = '1_4'))
+     client = Rapleaf::Marketo.new_client(access_key: <access_key>, secret_key: <secret_key>,
+                                          [api_subdomain: 'na-i', api_version: '1_5', document_version: '1_4'])
      More information at https://www.rapleaf.com/developers/marketo.
   EOF
   gem.email        = "iamnader@gmail.com"
   gem.authors      = ["Nader Akhnoukh"]
   gem.homepage     = "https://www.rapleaf.com/developers/marketo"
-  gem.files        = Dir['lib/**/*.rb']
-  gem.require_path = ['lib']
-  gem.test_files   = Dir['spec/**/*_spec.rb']
-  gem.version      = "1.4.4"
+  gem.files        = Dir["lib/**/*.rb"]
+  gem.require_path = ["lib"]
+  gem.test_files   = Dir["spec/**/*_spec.rb"]
+  gem.version      = "1.5.0"
   gem.has_rdoc     = true
-  gem.rdoc_options << '--title' << 'Marketo Client Gem' << '--main' << 'Marketo::Client'
+  gem.rdoc_options << "--title" << "Marketo Client Gem" << "--main" << "Marketo::Client"
 
-  gem.add_development_dependency('rspec', '>= 2.3.0')
-  gem.add_dependency('savon', '>= 0.8.3')
+  gem.required_ruby_version = ">= 2.0"
+  gem.add_development_dependency("rspec", ">= 2.3.0")
+  gem.add_dependency("savon", ">= 0.8.3")
 end
