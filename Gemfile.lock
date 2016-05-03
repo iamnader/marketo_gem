@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    marketo (1.5.0)
+    marketo (1.5.1)
       savon (>= 0.8.3)
 
 GEM
