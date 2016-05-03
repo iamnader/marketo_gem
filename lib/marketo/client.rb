@@ -1,13 +1,13 @@
 module Marketo
-  def self.new_client(access_key,
-                      secret_key,
-                      api_subdomain = 'na-i',
-                      api_version = '1_5',
-                      document_version = '1_4',
-                      read_timeout = 90,
-                      open_timeout = 90)
+  def self.new_client(access_key:,
+                      secret_key:,
+                      api_subdomain: "na-i",
+                      api_version: "1_5",
+                      document_version: "1_4",
+                      read_timeout: 90,
+                      open_timeout: 90)
     client = Savon::Client.new do
-      wsdl.endpoint     = api_subdomain.start_with?('http') ? api_subdomain : "https://#{api_subdomain}.marketo.com/soap/mktows/#{api_version}"
+      wsdl.endpoint     = api_subdomain.start_with?("http") ? api_subdomain : "https://#{api_subdomain}.marketo.com/soap/mktows/#{api_version}"
       wsdl.document     = "http://app.marketo.com/soap/mktows/#{document_version}?WSDL"
       http.read_timeout = read_timeout
       http.open_timeout = open_timeout
@@ -59,7 +59,7 @@ module Marketo
   # similarly, you can force a sync via id instead of email by calling client.sync_lead_record_on_id(lead_record)
   #
   class Client
-    # This constructor is used internally, create your client with *Rapleaf::Marketo.new_client(<access_key>, <secret_key>)*
+    # This constructor is used internally, create your client with Marketo.new_client(<access_key>, <secret_key>)*
     def initialize(savon_client, authentication_header)
       @client = savon_client
       @header = authentication_header
