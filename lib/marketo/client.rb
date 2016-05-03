@@ -59,7 +59,7 @@ module Marketo
   # similarly, you can force a sync via id instead of email by calling client.sync_lead_record_on_id(lead_record)
   #
   class Client
-    # This constructor is used internally, create your client with *Rapleaf::Marketo.new_client(<access_key>, <secret_key>)*
+    # This constructor is used internally, create your client with Marketo.new_client(<access_key>, <secret_key>)*
     def initialize(savon_client, authentication_header)
       @client = savon_client
       @header = authentication_header

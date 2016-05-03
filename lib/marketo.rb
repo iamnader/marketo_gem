@@ -1,9 +1,4 @@
 require 'savon'
-
-Savon.configure do |config|
-  config.log = false # disable logging
-end
-
 require 'marketo/authentication_header'
 require 'marketo/client'
 require 'marketo/enums'
